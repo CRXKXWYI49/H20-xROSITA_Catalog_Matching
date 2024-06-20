@@ -51,6 +51,6 @@ Distributed under the GNU License. See `LICENSE` for more information.
 
 ## Contact
 Your Name - trevin.lee@protonmail.com
-Project Link: [https://github.com/your-username/your-repo](https://github.com/your-username/your-repo)
+Project Link: [https://github.com/your-username/your-repo](https://github.com/CRXKXWYI49/H20-xROSITA-Catalog-Matching?tab=readme-ov-file#license)
 
 ---
