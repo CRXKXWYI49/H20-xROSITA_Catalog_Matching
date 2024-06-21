@@ -1,3 +1,8 @@
+# Datafiles
+*.fits    #H20 dataset
+*.tar.gz  #xROSITA dataset
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

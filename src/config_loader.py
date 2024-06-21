@@ -1,22 +1,25 @@
-from pathlib import path
-
+from pathlib import Path
 import yaml
 
 class ConfigLoader:
 
     def __init__(self, config_path: str):
-        config_path = path(config_path)
-        config_path = config_path.resolve()
-        config_path = str(config_path)
+        config_path: Path = Path(config_path).resolve()
 
         try:
-            with open(config_path, 'r') as config_file:
-                self.data = yaml.safe_load(config_file)
+            config_file = open(str(config_path), 'r')
+            self.yaml_dict = yaml.safe_load(config_file)
+            self.load_member_vars()
+
         except FileNotFoundError:
             print(f"{config_file} not found")
+
         except yaml.YAMLError:
             print(f"Error loading YAML file: {yaml.YAMLError}")
 
 
-    def parameters(self,):
-        pass
+    def load_member_vars(self):
+        data = self.yaml_dict
+        
+        self.XROSITA_PATH = data['xROSITA_data_path']
+        self.H20_PATH = data['H20_data_path']

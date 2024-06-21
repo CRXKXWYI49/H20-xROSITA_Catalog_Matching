@@ -1,0 +1,5 @@
+
+#Relative Paths to the src folder
+xROSITA_data_path: /Users/admin/Documents/GitHub/H20-xROSITA-Catalog-Matching/src/datasets/eRASS1_Main.v1.1.fits
+H20_data_path: /Users/admin/Documents/GitHub/H20-xROSITA-Catalog-Matching/src/datasets/h20.fits 
+
