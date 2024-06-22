@@ -1,7 +1,5 @@
 # Datafiles
-*.fits    #H20 dataset
-*.tar.gz  #xROSITA dataset
-
+*.fits  
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
