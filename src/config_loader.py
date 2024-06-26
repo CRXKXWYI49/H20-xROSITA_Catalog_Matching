@@ -21,5 +21,5 @@ class ConfigLoader:
     def load_member_vars(self):
         data = self.yaml_dict
         
-        self.XROSITA_PATH = data['xROSITA_data_path']
+        self.EROSITA_PATH = data['eROSITA_data_path']
         self.H20_PATH = data['H20_data_path']

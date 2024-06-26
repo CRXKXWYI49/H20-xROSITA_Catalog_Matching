@@ -12,65 +12,68 @@ import config_loader as ConfigLoader
 
 class DataLoader:
 
+    """
+    
+    """
+
     def __init__(self, config: ConfigLoader, verbosity = 0):
         self.config = config
         self.verbosity = verbosity
 
 
-    def get_xROSITA(self) -> pd.DataFrame:
+    def get_dataframe(self, path: str) -> pd.DataFrame:
         config = self.config
         verbosity = self.verbosity
 
-        with fits.open(Path(config.XROSITA_PATH).resolve()) as hdul:
+        with fits.open(Path(path).resolve()) as hdul:
             if verbosity == 1: hdul.info()
-            data_xROSITA = hdul[1].data
-            df_xROSITA = pd.DataFrame(data_xROSITA)
-            df_xROSITA = self._convert_dataframe(df_xROSITA)
+            data = hdul[1].data
+            df = pd.DataFrame(data)
+            df = self._convert_system_endian(df)
+            df = self._decode_byte_strings(df)
+
+        return df
+
+
+    def _decode_byte_strings(self, df: pd.DataFrame):
+        for column in df.select_dtypes(include=['object']):
+            df[column] = df[column].apply(
+                lambda x: x.decode('utf-8', errors='ignore') 
+                if isinstance(x, bytes) else x
+            )
+        return df
         
-        return df_xROSITA
 
-    
-    
-    def get_H20(self) -> pd.DataFrame:
-        config = self.config
-        verbosity = self.verbosity
 
-        with fits.open(Path(config.H20_PATH).resolve()) as hdul:
-            if verbosity == 1: hdul.info()
-            df_H20 = hdul[1].data
-            df_H20 = pd.DataFrame(df_H20)
-            df_H20 = self._convert_dataframe(df_H20)
-        
-        return df_H20
-    
-
-    def _convert_dataframe(self, dataframe):
+    def _convert_system_endian(self, df):
 
         """
-        Method to convert the dataframe to system endian.
+        Method to convert the df to system endian.
         """
 
         system_endian = sys.byteorder
 
-        def convert_endian(series):
+        def convert_endian(df):
+
             """
             A Private method to convert the dataframe to system endian. 
-            Checks system endian and converts dataframe if necessary.
+            Checks system endian and converts df if necessary.
             """
-            if ((series.dtype.kind in 'iu') and
-                (series.dtype.byteorder) not in 
+            
+            if ((df.dtype.kind in 'iu') and
+                (df.dtype.byteorder) not in 
                 ('=', system_endian)
             ):
-                return series.astype(
-                    series.dtype.newbyteorder(system_endian)
+                return df.astype(
+                    df.dtype.newbyteorder(system_endian)
                 )
-            elif ((series.dtype.kind == 'f') and
-                (series.dtype.byteorder) not in 
+            elif ((df.dtype.kind == 'f') and
+                (df.dtype.byteorder) not in 
                 ('=', system_endian)
             ):
-                return series.astype(
-                    series.dtype.newbyteorder(system_endian)
+                return df.astype(
+                    df.dtype.newbyteorder(system_endian)
                 )
-            return series
+            return df
         
-        return dataframe.apply(convert_endian)
+        return df.apply(convert_endian)
