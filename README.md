@@ -1,4 +1,4 @@
-# H20-xROSITA_Catalog_Matching
+# H20-eROSITA_Catalog_Matching
 
 
 ## Table of Contents
