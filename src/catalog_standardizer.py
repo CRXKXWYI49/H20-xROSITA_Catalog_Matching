@@ -7,38 +7,55 @@ from exceptions import DataFrameLengthMismatchError
 class CatalogStandardizer:
 
     """
-    Takes three arrays of equal length for the right ascension and declination
-    of the 
+    Takes several arrays of equal length for the right ascension, declination,
+    flux, flux error and positional error.
     """
     
     def __init__(
-            df_RA: pd.DataFrame, 
-            df_DEC: pd.DataFrame, 
-            df_RA_err: pd.DataFrame,
-            df_DEC_err: pd.DataFrame,            
+            df_ra: pd.DataFrame, 
+            df_dec: pd.DataFrame, 
+            df_pos_err: pd.DataFrame,
+            df_flux: pd.DataFrame,
+            df_flux_err: pd.DataFrame            
         ) -> pd.Dataframe:
+
+        for df in [df_ra, df_dec, df_pos_err, df_flux, df_flux_err]:
+            if df.shape[1] != 1: raise ValueError(
+                f"DataFrame {df.columns[0]} is not 1-dimensional."
+            )
         
-        if(
-            len(df_RA) != 
-            len(df_DEC) != 
-            len(df_RA_err) != 
-            len(df_DEC_err)
+        if not (
+            len(df_ra) == 
+            len(df_dec) == 
+            len(df_pos_err) == 
+            len(df_flux) == 
+            len(df_flux_err)
         ):
             raise DataFrameLengthMismatchError(
-                f"Length of input dataframes do not match"
+                "Length of input dataframes do not match"
             )
 
-        length = len(df_RA)
-        uuids = [uuid.uuid4() for _ in range(length)]
-        df_UUID = pd.DataFrame(uuids, columns=['UUID'])
+        length = len(df_ra)
+        uuids = [str(uuid.uuid4()) for _ in range(length)]
+        df_UUID = pd.DataFrame(uuids)
         
         df = pd.concat([
             df_UUID, 
-            df_RA, 
-            df_RA_err, 
-            df_DEC, 
-            df_DEC_err
+            df_ra, 
+            df_dec, 
+            df_pos_err,
+            df_flux,
+            df_flux_err
         ], axis=1)
+
+        df.columns = (
+            ['uuid'] + 
+            ['ra'] +
+            ['dec'] + 
+            ['pos_err'] +
+            ['flux'] +
+            ['flux_err'] 
+        )
 
         return df
     
