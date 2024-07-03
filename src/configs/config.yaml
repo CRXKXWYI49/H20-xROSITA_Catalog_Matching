@@ -1,5 +1,10 @@
 
-#Relative Paths to the src folder
+# Relative Paths to the src folder
 eROSITA_data_path: /Users/admin/Documents/GitHub/H20-xROSITA-Catalog-Matching/src/datasets/eRASS1_Main.v1.1.fits
 H20_data_path: /Users/admin/Documents/GitHub/H20-xROSITA-Catalog-Matching/src/datasets/DAWN_EDFF_DR1.fits
 
+# Search Parameters
+adj_flux_rad: 2.0
+acceptable_flux_range: 1.0
+background_inner_rad: 5.0
+background_outer_rad: 30.0

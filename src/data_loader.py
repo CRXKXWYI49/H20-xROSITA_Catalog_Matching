@@ -42,7 +42,6 @@ class DataLoader:
                 if isinstance(x, bytes) else x
             )
         return df
-        
 
 
     def _convert_system_endian(self, df):
