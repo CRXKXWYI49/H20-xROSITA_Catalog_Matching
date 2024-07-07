@@ -3,8 +3,14 @@
 eROSITA_data_path: /Users/admin/Documents/GitHub/H20-xROSITA-Catalog-Matching/src/datasets/eRASS1_Main.v1.1.fits
 H20_data_path: /Users/admin/Documents/GitHub/H20-xROSITA-Catalog-Matching/src/datasets/DAWN_EDFF_DR1.fits
 
+# Processed data path
+save_data_path: "../datasets_preprocessed"
+
 # Search Parameters
 adj_flux_rad: 2.0
-acceptable_flux_range: 1.0
+match_search_rad: 1.0
 background_inner_rad: 5.0
 background_outer_rad: 30.0
+
+# Matching Parameters
+interpolation_bins: 21
